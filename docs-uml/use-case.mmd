@@ -1,0 +1,27 @@
+graph LR
+    subgraph Acteurs
+        User((Utilisateur))
+        Worker((Worker Cron))
+        LinkedIn((API LinkedIn))
+    end
+
+    subgraph Module Auth
+        User --> UC1(S'authentifier OAuth 2.0)
+    end
+
+    subgraph Module Éditeur
+        User --> UC2(Rédiger texte & médias)
+        User --> UC3(Sauvegarder en brouillon)
+    end
+
+    subgraph Module Planification
+        User --> UC4(Planifier date/heure UTC)
+        User --> UC5(Consulter le Dashboard)
+        User --> UC6(Modifier / Reprogrammer)
+    end
+
+    subgraph Module Exécution
+        Worker --> UC7(Déclencher l'envoi auto)
+        UC7 --> LinkedIn
+        LinkedIn --> UC8(Confirmer HTTP 201 / Erreur 5xx)
+    end

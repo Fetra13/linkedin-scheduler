@@ -1,0 +1,35 @@
+classDiagram
+    class User {
+        +Long id
+        +String name
+        +String email
+        +String encryptedAccessToken
+        +String refreshToken
+        +DateTime createdAt
+        +authentifier()
+        +gererScopes()
+    }
+
+    class Post {
+        +Long id
+        +Long userId
+        +Text content
+        +String mediaUrl
+        +Enum status (DRAFT, SCHEDULED, PUBLISHED, FAILED)
+        +DateTime scheduledAt
+        +DateTime createdAt
+        +creerBrouillon()
+        +planifier()
+    }
+
+    class ExecutionLog {
+        +Long id
+        +Long postId
+        +Integer attemptCount
+        +Text errorMessage
+        +DateTime loggedAt
+        +enregistrerTentative()
+    }
+
+    User "1" --> "*" Post : rédige / possède
+    Post "1" --> "*" ExecutionLog : génère

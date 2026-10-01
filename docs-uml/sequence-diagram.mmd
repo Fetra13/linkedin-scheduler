@@ -1,0 +1,17 @@
+sequenceDiagram
+    autonumber
+    actor User as Utilisateur
+    participant Front as Frontend (React)
+    participant Back as Backend (Express)
+    participant LinkedIn as API LinkedIn
+
+    User->>Front: Clique sur "Se connecter avec LinkedIn"
+    Front->>Back: Requête GET /auth/linkedin
+    Back->>LinkedIn: Redirection vers l'URL d'autorisation (scopes: openid profile w_member_social)
+    LinkedIn-->>User: Affiche l'écran de consentement LinkedIn
+    User->>LinkedIn: Valide les permissions
+    LinkedIn-->>Back: Redirection avec un code temporaire (code)
+    Back->>LinkedIn: Requête POST d'échange du code contre un jeton
+    LinkedIn-->>Back: Retourne l'access_token & refreshToken
+    Note over Back: Chiffrement du token (AES-256)<br/>Enregistrement dans la table User
+    Back-->>Front: Redirection vers le Dashboard (Session active)
